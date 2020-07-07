@@ -13,6 +13,7 @@ const std::string fileName = "CURVA.DAT";
 union DataField {
     int i;
     float f;
+    float* a;
 
     operator int() const {
         return i;
@@ -20,6 +21,10 @@ union DataField {
 
     operator float() const {
         return f;
+    }
+    
+    operator float*() const {
+        return a;
     }
 };
 // ====================================================
@@ -29,22 +34,30 @@ class RegisterFields {
 public:
     std::string format;
     const int* sequence;
-
-    RegisterFields(const std::string f, const int* s) {
-        this->format = f;
-        for (int i = 0; i < sizeof (this->sequence); i++) {
-            this->sequence = s;
-        }
+    int* spacement;
+    
+    RegisterFields(const std::string format, const int* sequence) {
+        this->format = format;
+        this->sequence = sequence;
+        int newArray[2] = {-1, -1};
+        this->spacement = newArray;
+        
+    }
+    
+    RegisterFields(const std::string format, const int* sequence, int* spacement) {
+        this->format = format;
+        this->sequence = sequence;
+        this->spacement = spacement;
     }
 };
 
 
 
 class Bloco1 {
-public:
+private:
     int numeroSubsistema;
     float penalidade;
-
+public:
     Bloco1(int numeroSubsistema, float penalidade) {
         this->numeroSubsistema = numeroSubsistema;
         this->penalidade = penalidade;
@@ -57,9 +70,9 @@ public:
 };
 
 class Reg1Bloco2 {
-public:
+private:
     int numeroSubsistema;
-    
+public:
     Reg1Bloco2() {
     }
 
@@ -73,62 +86,37 @@ public:
 };
 
 class Reg2Bloco2 {
-public:
+private:
     int ano;
-    float jan;
-    float fev;
-    float mar;
-    float abr;
-    float mai;
-    float jun;
-    float jul;
-    float ago;
-    float set;
-    float out;
-    float nov;
-    float dez;
-
-    Reg2Bloco2(int ano, float jan, float fev, float mar,
-            float abr, float mai, float jun, float jul, float ago,
-            float set, float out, float nov, float dez) {
-
+    float* meses; 
+public:
+    Reg2Bloco2(int ano, float* meses) {
         this->ano = ano;
-        this->jan = jan;
-        this->fev = fev;
-        this->mar = mar;
-        this->abr = abr;
-        this->mai = mai;
-        this->jun = jun;
-        this->jul = jul;
-        this->ago = ago;
-        this->set = set;
-        this->out = out;
-        this->nov = nov;
-        this->dez = dez;
+        this->meses = meses;
     }
 
     void print() {
         std::cout << "[ano: " << this->ano << std::endl <<
-                "jan: " << this->jan << std::endl <<
-                "fev: " << this->fev << std::endl <<
-                "mar: " << this->mar << std::endl <<
-                "abr: " << this->abr << std::endl <<
-                "mai: " << this->mai << std::endl <<
-                "jun: " << this->jun << std::endl <<
-                "jul: " << this->jul << std::endl <<
-                "ago: " << this->ago << std::endl <<
-                "set: " << this->set << std::endl <<
-                "out: " << this->out << std::endl <<
-                "nov: " << this->nov << std::endl <<
-                "dez: " << this->dez << "]" << std::endl;
+                "jan: " << this->meses[0] << std::endl <<
+                "fev: " << this->meses[1] << std::endl <<
+                "mar: " << this->meses[2] << std::endl <<
+                "abr: " << this->meses[3] << std::endl <<
+                "mai: " << this->meses[4] << std::endl <<
+                "jun: " << this->meses[5] << std::endl <<
+                "jul: " << this->meses[6] << std::endl <<
+                "ago: " << this->meses[7] << std::endl <<
+                "set: " << this->meses[8] << std::endl <<
+                "out: " << this->meses[9] << std::endl <<
+                "nov: " << this->meses[10] << std::endl <<
+                "dez: " << this->meses[11] << "]" << std::endl;
     }
 };
 
 class Bloco2 {
-public:
+private:
     Reg1Bloco2 reg1;
     std::vector<Reg2Bloco2> reg2;
-    
+public:
     Bloco2() {
     }
 
@@ -159,12 +147,13 @@ public:
 };
 
 class Bloco3 {
-public:
+private:
     int maxIteracoes;
     int iteracaoPenalidade;
     float tolerancia;
     int relatorio;
     
+public:
     Bloco3() {
     }
 
@@ -173,6 +162,22 @@ public:
         this->iteracaoPenalidade = iteracaoPenalidade;
         this->tolerancia = tolerancia;
         this->relatorio = relatorio;
+    }
+    
+    void setMaxIteracoes(int maxIteracoes) {
+        this->maxIteracoes = maxIteracoes;
+    }
+    
+    void setIteracaoPenalidade(int iteracaoPenalidade) {
+        this->maxIteracoes = maxIteracoes;
+    }
+    
+    void setTolerancia(float tolerancia) {
+        this->maxIteracoes = maxIteracoes;
+    }
+    
+    void setRelatorio(int relatiorip) {
+        this->maxIteracoes = maxIteracoes;
     }
 
     void print() {
@@ -214,41 +219,9 @@ const RegisterFields NUMERO_SUBSISTEMA_2 = RegisterFields("I3", NUMERO_SUBSISTEM
 const int ANO_2_SEQ[] = {1, 4};
 const RegisterFields ANO_2 = RegisterFields("I4", ANO_2_SEQ);
 
-const int PERCENTUAL_JAN_2_SEQ[] = {7, 11};
-const RegisterFields PERCENTUAL_JAN_2 = RegisterFields("F5.1", PERCENTUAL_JAN_2_SEQ);
-
-const int PERCENTUAL_FEV_2_SEQ[] = {13, 17};
-const RegisterFields PERCENTUAL_FEV_2 = RegisterFields("F5.1", PERCENTUAL_FEV_2_SEQ);
-
-const int PERCENTUAL_MAR_2_SEQ[] = {19, 23};
-const RegisterFields PERCENTUAL_MAR_2 = RegisterFields("F5.1", PERCENTUAL_MAR_2_SEQ);
-
-const int PERCENTUAL_ABR_2_SEQ[] = {25, 29};
-const RegisterFields PERCENTUAL_ABR_2 = RegisterFields("F5.1", PERCENTUAL_ABR_2_SEQ);
-
-const int PERCENTUAL_MAI_2_SEQ[] = {31, 35};
-const RegisterFields PERCENTUAL_MAI_2 = RegisterFields("F5.1", PERCENTUAL_MAI_2_SEQ);
-
-const int PERCENTUAL_JUN_2_SEQ[] = {37, 41};
-const RegisterFields PERCENTUAL_JUN_2 = RegisterFields("F5.1", PERCENTUAL_JUN_2_SEQ);
-
-const int PERCENTUAL_JUL_2_SEQ[] = {43, 47};
-const RegisterFields PERCENTUAL_JUL_2 = RegisterFields("F5.1", PERCENTUAL_JUL_2_SEQ);
-
-const int PERCENTUAL_AGO_2_SEQ[] = {49, 53};
-const RegisterFields PERCENTUAL_AGO_2 = RegisterFields("F5.1", PERCENTUAL_AGO_2_SEQ);
-
-const int PERCENTUAL_SET_2_SEQ[] = {55, 59};
-const RegisterFields PERCENTUAL_SET_2 = RegisterFields("F5.1", PERCENTUAL_SET_2_SEQ);
-
-const int PERCENTUAL_OUT_2_SEQ[] = {61, 65};
-const RegisterFields PERCENTUAL_OUT_2 = RegisterFields("F5.1", PERCENTUAL_OUT_2_SEQ);
-
-const int PERCENTUAL_NOV_2_SEQ[] = {67, 71};
-const RegisterFields PERCENTUAL_NOV_2 = RegisterFields("F5.1", PERCENTUAL_NOV_2_SEQ);
-
-const int PERCENTUAL_DEZ_2_SEQ[] = {73, 77};
-const RegisterFields PERCENTUAL_DEZ_2 = RegisterFields("F5.1", PERCENTUAL_DEZ_2_SEQ);
+const int PERCENTUAL_MONTH_2_SEQ[] = {7, 77};
+int SPACEMENT[] = {12, 1};
+const RegisterFields PERCENTUAL_MONTH_2 = RegisterFields("F5.1", PERCENTUAL_MONTH_2_SEQ, SPACEMENT);
 
 const int LIMITADOR_BLOCO_2 = 9999;
 // ---------------------------------------------------
@@ -326,19 +299,7 @@ int main() {
                 int ano = getData(line, ANO_2);
 
                 if (ano != LIMITADOR_BLOCO_2) {
-                    Reg2Bloco2 reg = Reg2Bloco2(ano,
-                            getData(line, PERCENTUAL_JAN_2),
-                            getData(line, PERCENTUAL_FEV_2),
-                            getData(line, PERCENTUAL_MAR_2),
-                            getData(line, PERCENTUAL_ABR_2),
-                            getData(line, PERCENTUAL_MAI_2),
-                            getData(line, PERCENTUAL_JUN_2),
-                            getData(line, PERCENTUAL_JUL_2),
-                            getData(line, PERCENTUAL_AGO_2),
-                            getData(line, PERCENTUAL_SET_2),
-                            getData(line, PERCENTUAL_OUT_2),
-                            getData(line, PERCENTUAL_NOV_2),
-                            getData(line, PERCENTUAL_DEZ_2));
+                    Reg2Bloco2 reg = Reg2Bloco2(ano, getData(line, PERCENTUAL_MONTH_2));
                     
                     bloco2[bloco2.size()-1].setReg2(reg);               
                 } else {
@@ -354,19 +315,19 @@ int main() {
                     break;
                 }
                 if (lineCount == lastLineBlock + REGISTROS_OBRIGATORIOS_3 + 1) {
-                    bloco3.maxIteracoes = getData(line, MAX_ITERACOES_3);
+                    bloco3.setMaxIteracoes(getData(line, MAX_ITERACOES_3));
                     break;
                 }
                 if (lineCount == lastLineBlock + REGISTROS_OBRIGATORIOS_3 + 2) {
-                    bloco3.iteracaoPenalidade = getData(line, ITERACAO_PENALIDADE_3);
+                    bloco3.setIteracaoPenalidade(getData(line, ITERACAO_PENALIDADE_3));
                     break;
                 }
                 if (lineCount == lastLineBlock + REGISTROS_OBRIGATORIOS_3 + 3) {
-                    bloco3.tolerancia = getData(line, TOLERANCIA_3);
+                    bloco3.setTolerancia(getData(line, TOLERANCIA_3));
                     break;
                 }
                 if (lineCount == lastLineBlock + REGISTROS_OBRIGATORIOS_3 + 4) {
-                    bloco3.relatorio = getData(line, RELATORIO_3);
+                    bloco3.setRelatorio(getData(line, RELATORIO_3));
                     break;
                 }
                 break;
@@ -418,6 +379,18 @@ DataField getData(std::string text, RegisterFields field) {
             const std::string integerSlice = text.substr(start, integerNumber);
             const std::string decimalSlice = text.substr(start + integerNumber, decimalNumber);
             data.f = stof(integerSlice + "." + decimalSlice);*/
+            if(field.spacement[0] == -1 && field.spacement[1] == -1) {
+                float months[field.spacement[0]];
+                int start = field.sequence[0] - 1;
+                const int numberChar = (field.format.at(1) - '0');
+                int space = field.spacement[1];
+                
+                for(int i = 0; i < field.spacement[0]; i++) {
+                    std::string extract = std::string(&text[start + i*(numberChar + space)], &text[start + (i+1)*(numberChar+space)]);
+                    months[i] =  std::stof(extract);
+                }
+                data.a = months;
+            }
             std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
             data.f = std::stof(extract);
             break;
