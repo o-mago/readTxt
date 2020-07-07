@@ -4,6 +4,8 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>curva.h</itemPath>
+      <itemPath>penalid.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +15,10 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>CURVA.DAT</itemPath>
+      <itemPath>PENALID.DAT</itemPath>
+      <itemPath>curva.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>penalid.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -42,7 +47,17 @@
       </compileType>
       <item path="CURVA.DAT" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="PENALID.DAT" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="curva.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="curva.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="penalid.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="penalid.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -67,7 +82,17 @@
       </compileType>
       <item path="CURVA.DAT" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="PENALID.DAT" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="curva.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="curva.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="penalid.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="penalid.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
