@@ -32,9 +32,7 @@ public:
 
     RegisterFieldsCurva(const std::string f, const int* s) {
         this->format = f;
-        for (int i = 0; i < sizeof (this->sequence); i++) {
-            this->sequence = s;
-        }
+        this->sequence = s;
     }
 };
 
@@ -275,7 +273,7 @@ const RegisterFieldsCurva RELATORIO_3 = RegisterFieldsCurva("I1", RELATORIO_3_SE
 
 
 // ================== Parsing file ==================
-void curva() {
+int main() {
     std::string line;
     int lineCount = 1;
     std::vector <Bloco1> bloco1;

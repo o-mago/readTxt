@@ -32,9 +32,7 @@ public:
 
     RegisterFieldsPenalid(const std::string f, const int* s) {
         this->format = f;
-        for (int i = 0; i < sizeof (this->sequence); i++) {
-            this->sequence = s;
-        }
+        this->sequence = s;
     }
 };
 
@@ -91,14 +89,12 @@ const RegisterFieldsPenalid PAT = RegisterFieldsPenalid("I2", PAT_SEQ);
 // ---------------------------------------------
 
 // ================== Parsing file ==================
-void penalid() {
+int main() {
     std::string line;
     int lineCount = 1;
     std::vector <Bloco> bloco;
-
     std::ifstream file(fileName);
-
-    while (getline(file, line)) {
+    while (std::getline(file, line)) {
         if (lineCount > REGISTROS_OBRIGATORIOS) {
             std::string pchave = getStringData(line, PCHAVE);
             float penalid1 = getData(line, PENALID_1);
@@ -128,7 +124,13 @@ void printRegisters(std::vector<Bloco> bloco) {
 
 // ===================== Handling data formats ========================
 std::string getStringData(std::string text, RegisterFieldsPenalid field) {
-    std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
+    std::string extract = "";
+    try {
+        text.at(field.sequence[1]);
+        extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
+    } catch (const std::exception& e) {
+        
+    }
     return extract;
 }
 
@@ -137,8 +139,9 @@ DataFieldPenalid getData(std::string text, RegisterFieldsPenalid field) {
     switch (field.format.at(0)) {
         case 'I':
         {
-            std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
             try {
+                text.at(field.sequence[1]);
+                std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
                 data.i = std::stoi(extract);
             } catch (const std::exception& e) {
                 data.i = -1;
@@ -153,8 +156,9 @@ DataFieldPenalid getData(std::string text, RegisterFieldsPenalid field) {
             const std::string integerSlice = text.substr(start, integerNumber);
             const std::string decimalSlice = text.substr(start + integerNumber, decimalNumber);
             data.f = stof(integerSlice + "." + decimalSlice);*/
-            std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
             try {
+                text.at(field.sequence[1]);
+                std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
                 data.f = std::stof(extract);
             } catch (const std::exception& e) {
                 data.f = -1.0;
