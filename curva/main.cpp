@@ -280,7 +280,7 @@ int main() {
     std::vector <Bloco2> bloco2;
     Bloco3 bloco3;
     char regType = 1;
-    char lastLineBlock = 1;
+    int lastLineBlock = 1;
 
     std::ifstream file(fileName);
 
@@ -404,8 +404,13 @@ DataFieldCurva getData(std::string text, RegisterFieldsCurva field) {
     switch (field.format.at(0)) {
         case 'I':
         {
-            std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
-            data.i = std::stoi(extract);
+            try {
+                text.at(field.sequence[1]-1);
+                std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
+                data.i = std::stoi(extract);
+            } catch (const std::exception& e) {
+                data.i = -1;
+            }
             break;
         }
         case 'F':
@@ -416,8 +421,13 @@ DataFieldCurva getData(std::string text, RegisterFieldsCurva field) {
             const std::string integerSlice = text.substr(start, integerNumber);
             const std::string decimalSlice = text.substr(start + integerNumber, decimalNumber);
             data.f = stof(integerSlice + "." + decimalSlice);*/
-            std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
-            data.f = std::stof(extract);
+            try {
+                text.at(field.sequence[1]-1);
+                std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
+                data.f = std::stof(extract);
+            } catch (const std::exception& e) {
+                data.f = -1.0;
+            }
             break;
         }
     }

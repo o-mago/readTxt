@@ -129,7 +129,7 @@ std::string getStringData(std::string text, RegisterFieldsPenalid field) {
         text.at(field.sequence[1]);
         extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
     } catch (const std::exception& e) {
-        
+
     }
     return extract;
 }
@@ -140,7 +140,7 @@ DataFieldPenalid getData(std::string text, RegisterFieldsPenalid field) {
         case 'I':
         {
             try {
-                text.at(field.sequence[1]);
+                text.at(field.sequence[1]-1);
                 std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
                 data.i = std::stoi(extract);
             } catch (const std::exception& e) {
@@ -157,7 +157,7 @@ DataFieldPenalid getData(std::string text, RegisterFieldsPenalid field) {
             const std::string decimalSlice = text.substr(start + integerNumber, decimalNumber);
             data.f = stof(integerSlice + "." + decimalSlice);*/
             try {
-                text.at(field.sequence[1]);
+                text.at(field.sequence[1]-1);
                 std::string extract = std::string(&text[field.sequence[0] - 1], &text[field.sequence[1]]);
                 data.f = std::stof(extract);
             } catch (const std::exception& e) {
